@@ -46,6 +46,7 @@ body {
     margin: 0;
     width: 160px;
     font-size: 24px;
+    cursor: pointer;
 }
 
 .delete {
@@ -56,6 +57,7 @@ body {
     margin: 0;
     width: 160px;
     font-size: 24px;
+    cursor: pointer;
 }
 
 .grid {
@@ -78,4 +80,5 @@ body {
     width: 44px;
     text-align: center;
     padding: 16px;
+    cursor: pointer;
 }
