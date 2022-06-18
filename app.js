@@ -2,7 +2,7 @@ function operate (a, b, op) {
     switch (op) {
         case '+': return a + b;
         case '-': return a - b;
-        case 'x': return a * b;
+        case '*': return a * b;
         case '/': return a / b;
     }
 }
@@ -34,7 +34,7 @@ button[3].addEventListener('click', () => {display[0].textContent += '/'});
 button[4].addEventListener('click', () => {display[0].textContent += 4});
 button[5].addEventListener('click', () => {display[0].textContent += 5});
 button[6].addEventListener('click', () => {display[0].textContent += 6});
-button[7].addEventListener('click', () => {display[0].textContent += 'x'});
+button[7].addEventListener('click', () => {display[0].textContent += '*'});
 
 button[8].addEventListener('click', () => {display[0].textContent += 1});
 button[9].addEventListener('click', () => {display[0].textContent += 2});
@@ -48,11 +48,11 @@ button[15].addEventListener('click', () => {display[0].textContent += '+'});
 clear.addEventListener('click', () => {display[0].textContent = ''});
 del.addEventListener('click', () => {display[0].textContent = display[0].textContent.slice(0, -1)});
 
-button[14].addEventListener('click', () => {
-    let str = display[0].textContent;
+button[14].addEventListener('click', () => {    
+    let str = display[0].textContent; 
     const addIndex = str.indexOf('+');
     const subtractIndex = str.indexOf('-');
-    const multiplyIndex = str.indexOf('x');
+    const multiplyIndex = str.indexOf('*');
     const divideIndex = str.indexOf('/');
     let num1 = 0;
     let num2 = 0;
@@ -69,17 +69,17 @@ button[14].addEventListener('click', () => {
     }
 
     if (op == '+') {
-        num1 = parseInt(str.slice(0, addIndex));
-        num2 = parseInt(str.slice(addIndex + 1, str.length));
+        num1 = parseFloat(str.slice(0, addIndex));
+        num2 = parseFloat(str.slice(addIndex + 1, str.length));
     } else if (op == '-') {
-        num1 = parseInt(str.slice(0, subtractIndex));
-        num2 = parseInt(str.slice(subtractIndex + 1, str.length));
-    } else if (op == 'x') {
-        num1 = parseInt(str.slice(0, multiplyIndex));
-        num2 = parseInt(str.slice(multiplyIndex + 1, str.length));
+        num1 = parseFloat(str.slice(0, subtractIndex));
+        num2 = parseFloat(str.slice(subtractIndex + 1, str.length));
+    } else if (op == '*') {
+        num1 = parseFloat(str.slice(0, multiplyIndex));
+        num2 = parseFloat(str.slice(multiplyIndex + 1, str.length));
     } else if (op == '/') {
-        num1 = parseInt(str.slice(0, divideIndex));
-        num2 = parseInt(str.slice(divideIndex + 1, str.length));
+        num1 = parseFloat(str.slice(0, divideIndex));
+        num2 = parseFloat(str.slice(divideIndex + 1, str.length));
     }
 
     display[0].textContent = operate(num1, num2, op);
