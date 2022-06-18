@@ -7,6 +7,7 @@ function operate (a, b, op) {
     }
 }
 
+// make buttons interactive
 const button = document.getElementsByClassName('button');
 for (let i = 0; i < button.length; i++) {
     button[i].addEventListener('mouseenter', () => { 
@@ -17,6 +18,7 @@ for (let i = 0; i < button.length; i++) {
     })
 }
 
+// make buttons interactive
 const clear = document.getElementById('clear');
 clear.addEventListener('mouseenter', () => {clear.style.backgroundColor = 'red'});
 clear.addEventListener('mouseleave', () => {clear.style.backgroundColor = 'pink'});
@@ -25,6 +27,7 @@ const del = document.getElementById('delete');
 del.addEventListener('mouseenter', () => {del.style.backgroundColor = 'blue'});
 del.addEventListener('mouseleave', () => {del.style.backgroundColor = 'lightblue'});
 
+// add numbers and operators to display
 const display = document.getElementsByClassName('display');
 button[0].addEventListener('click', () => {display[0].textContent += 7});
 button[1].addEventListener('click', () => {display[0].textContent += 8});
@@ -48,8 +51,8 @@ button[15].addEventListener('click', () => {display[0].textContent += '+'});
 clear.addEventListener('click', () => {display[0].textContent = ''});
 del.addEventListener('click', () => {display[0].textContent = display[0].textContent.slice(0, -1)});
 
-button[14].addEventListener('click', () => {    
-    let str = display[0].textContent; 
+// logic to process string of type (num1, operator, num2)
+function logic(str) {
     const addIndex = str.indexOf('+');
     const subtractIndex = str.indexOf('-');
     const multiplyIndex = str.indexOf('*');
@@ -57,17 +60,19 @@ button[14].addEventListener('click', () => {
     let num1 = 0;
     let num2 = 0;
     let op = ''
-
+    
+    // determine operator
     if (addIndex > 0) {
-        op = str.charAt(addIndex);
+        op = '+';
     } else if (subtractIndex > 0) {
-        op = str.charAt(subtractIndex);
+        op = '-';
     } else if (multiplyIndex > 0) {
-        op = str.charAt(multiplyIndex);
+        op = '*';
     } else if (divideIndex > 0) {
-        op = str.charAt(divideIndex);
+        op = '/';
     }
 
+    //determine num1 and num2
     if (op == '+') {
         num1 = parseFloat(str.slice(0, addIndex));
         num2 = parseFloat(str.slice(addIndex + 1, str.length));
@@ -82,5 +87,26 @@ button[14].addEventListener('click', () => {
         num2 = parseFloat(str.slice(divideIndex + 1, str.length));
     }
 
-    display[0].textContent = operate(num1, num2, op);
+    let answer = parseFloat(operate(num1, num2, op));
+    return Math.round(answer * 1000) / 1000;
+}
+
+// click event to allow continuous calculations
+const opButtons = document.querySelectorAll('[data-operator]');
+for (let i = 0; i < opButtons.length; i++) {
+    opButtons[i].addEventListener('click', () => {
+        let str = display[0].textContent;
+        let op = str.charAt(str.length - 1);
+        str = str.slice(0, str.length - 1);
+        
+        if (str.indexOf('+') > -1 || str.indexOf('-') > -1 || str.indexOf('*') > -1 || str.indexOf('/') > -1) {
+            display[0].textContent = logic(str) + op;
+        }
+    })
+}
+
+// click event to end calculations
+button[14].addEventListener('click', () => {    
+    let str = display[0].textContent; 
+    display[0].textContent = logic(str);
 });
