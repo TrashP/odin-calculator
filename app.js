@@ -1,24 +1,8 @@
-function add(a, b) {
-    return a + b;
-}
-
-function subtract(a, b) {
-    return a - b;
-}
-
-function multiply(a, b) {
-    return a * b;
-}
-
-function divide(a, b) {
-    return a / b;
-}
-
 function operate (a, b, op) {
     switch (op) {
         case '+': return a + b;
         case '-': return a - b;
-        case '*': return a * b;
+        case 'x': return a * b;
         case '/': return a / b;
     }
 }
@@ -59,9 +43,44 @@ button[11].addEventListener('click', () => {display[0].textContent += '-'});
 
 button[12].addEventListener('click', () => {display[0].textContent += '.'});
 button[13].addEventListener('click', () => {display[0].textContent += 0});
-button[14].addEventListener('click', () => {display[0].textContent += '='});
 button[15].addEventListener('click', () => {display[0].textContent += '+'});
 
 clear.addEventListener('click', () => {display[0].textContent = ''});
 del.addEventListener('click', () => {display[0].textContent = display[0].textContent.slice(0, -1)});
 
+button[14].addEventListener('click', () => {
+    let str = display[0].textContent;
+    const addIndex = str.indexOf('+');
+    const subtractIndex = str.indexOf('-');
+    const multiplyIndex = str.indexOf('x');
+    const divideIndex = str.indexOf('/');
+    let num1 = 0;
+    let num2 = 0;
+    let op = ''
+
+    if (addIndex > 0) {
+        op = str.charAt(addIndex);
+    } else if (subtractIndex > 0) {
+        op = str.charAt(subtractIndex);
+    } else if (multiplyIndex > 0) {
+        op = str.charAt(multiplyIndex);
+    } else if (divideIndex > 0) {
+        op = str.charAt(divideIndex);
+    }
+
+    if (op == '+') {
+        num1 = parseInt(str.slice(0, addIndex));
+        num2 = parseInt(str.slice(addIndex + 1, str.length));
+    } else if (op == '-') {
+        num1 = parseInt(str.slice(0, subtractIndex));
+        num2 = parseInt(str.slice(subtractIndex + 1, str.length));
+    } else if (op == 'x') {
+        num1 = parseInt(str.slice(0, multiplyIndex));
+        num2 = parseInt(str.slice(multiplyIndex + 1, str.length));
+    } else if (op == '/') {
+        num1 = parseInt(str.slice(0, divideIndex));
+        num2 = parseInt(str.slice(divideIndex + 1, str.length));
+    }
+
+    display[0].textContent = operate(num1, num2, op);
+});
